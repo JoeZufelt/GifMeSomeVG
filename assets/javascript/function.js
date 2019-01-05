@@ -1,7 +1,7 @@
 // API key 1kW6fbxjvOPE2Ef6e2f26fpQP1xYhf2q
 $(document).ready(function () {
 
-    var games = ["Fallout", "Final Fantasy", "Mario Bros", "Halo"];
+    var gamesArray = ["Fallout", "Final Fantasy", "Mario Bros", "Kingdom Hearts"];
 
     function displayGame() {
 
@@ -19,10 +19,13 @@ $(document).ready(function () {
                     var rating = results[i].rating;
                     var p = $("<p>").text("Rating: " + rating);
                     var gameGif = $("<img>");
-                    gameGif.attr("src", results[i].images.fixed_height.url);
+                    var gameStill = results[i].images.original_still.url;
+                    var gameMove = results[i].images.original.url;
+                    gameGif.attr("src", gameStill);
                     gifDiv.append(p);
                     gifDiv.append(gameGif);
                     $(".gifs").prepend(gifDiv);
+                    console.log(results);
                 }; // End if
             }; // End for
         }); // End then
@@ -30,19 +33,19 @@ $(document).ready(function () {
 
     function renderButtons() {
         $("#buttons").empty();
-        for (var i = 0; i < games.length; i++) {
+        for (var i = 0; i < gamesArray.length; i++) {
             var a = $("<button>");
             a.addClass("game-btn");
-            a.attr("data-name", games[i]);
-            a.text(games[i]);
+            a.attr("data-name", gamesArray[i]);
+            a.text(gamesArray[i]);
             $("#buttons").append(a);
         }; // End for
     }; // End renderButtons
 
     $("#add-game").on("click", function (event) {
-        event.preventDefult();
+        event.preventDefault();
         var game = $("#game-input").val().trim();
-        games.push(game);
+        gamesArray.push(game);
         renderButtons();
     }); // End Add Game Click
 
