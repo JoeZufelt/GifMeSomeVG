@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     function displayGame() {
 
+        $(".gifs").empty();
         var game = $(this).attr("data-name");
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + game + "&api_key=1kW6fbxjvOPE2Ef6e2f26fpQP1xYhf2q&limit=10";
 
@@ -19,9 +20,10 @@ $(document).ready(function () {
                     var rating = results[i].rating;
                     var p = $("<p>").text("Rating: " + rating);
                     var gameGif = $("<img>");
-                    var gameStill = results[i].images.original_still.url;
-                    var gameMove = results[i].images.original.url;
-                    gameGif.attr("src", gameStill);
+                    var gameStill = results[i].images.fixed_height_still.url;
+                    var gameMove = results[i].images.fixed_height.url;
+                    // gameGif.attr("src", gameStill);
+                    gameGif.addClass("game-gif").attr("src", gameStill).attr("value", "still").attr("stillURL", gameStill).attr("movingURL", gameMove);
                     gifDiv.append(p);
                     gifDiv.append(gameGif);
                     $(".gifs").prepend(gifDiv);
@@ -50,14 +52,14 @@ $(document).ready(function () {
     }); // End Add Game Click
 
     // Start and Stop Gifs
-    $(".gif").on("click", function() {
-        var state = $(this).attr("data-state");
-        if (state === "still") {
-          $(this).attr("src", $(this).attr("data-animate"));
-          $(this).attr("data-state", "animate");
+    $(document).on("click", ".game-gif", function() {
+        var isMoving = $(this).attr("value");
+        if (isMoving === "still") {
+          $(this).attr("src", $(this).attr("movingURL"));
+          $(this).attr("value", "moving");
         } else {
-          $(this).attr("src", $(this).attr("data-still"));
-          $(this).attr("data-state", "still");
+          $(this).attr("src", $(this).attr("stillURL"));
+          $(this).attr("value", "still");
         }
       });
 
