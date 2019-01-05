@@ -22,8 +22,8 @@ $(document).ready(function () {
                     var gameGif = $("<img>");
                     var gameStill = results[i].images.fixed_height_still.url;
                     var gameMove = results[i].images.fixed_height.url;
-                    // gameGif.attr("src", gameStill);
                     gameGif.addClass("game-gif").attr("src", gameStill).attr("value", "still").attr("stillURL", gameStill).attr("movingURL", gameMove);
+                    gifDiv.addClass("gifDiv");
                     gifDiv.append(p);
                     gifDiv.append(gameGif);
                     $(".gifs").prepend(gifDiv);
@@ -37,7 +37,7 @@ $(document).ready(function () {
         $("#buttons").empty();
         for (var i = 0; i < gamesArray.length; i++) {
             var a = $("<button>");
-            a.addClass("game-btn");
+            a.addClass("btn btn-secondary game-btn");
             a.attr("data-name", gamesArray[i]);
             a.text(gamesArray[i]);
             $("#buttons").append(a);
@@ -49,19 +49,20 @@ $(document).ready(function () {
         var game = $("#game-input").val().trim();
         gamesArray.push(game);
         renderButtons();
+        $("#game-input").val("");
     }); // End Add Game Click
 
     // Start and Stop Gifs
-    $(document).on("click", ".game-gif", function() {
+    $(document).on("click", ".game-gif", function () {
         var isMoving = $(this).attr("value");
         if (isMoving === "still") {
-          $(this).attr("src", $(this).attr("movingURL"));
-          $(this).attr("value", "moving");
+            $(this).attr("src", $(this).attr("movingURL"));
+            $(this).attr("value", "moving");
         } else {
-          $(this).attr("src", $(this).attr("stillURL"));
-          $(this).attr("value", "still");
+            $(this).attr("src", $(this).attr("stillURL"));
+            $(this).attr("value", "still");
         }
-      });
+    });
 
     $(document).on("click", ".game-btn", displayGame);
     renderButtons();
